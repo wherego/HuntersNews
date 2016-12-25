@@ -1,8 +1,10 @@
 package com.hunterliy.hunternews.utils;
 
-import com.hunterliy.hunternews.activity.HunterNewsApp;;import java.io.File;
+import com.hunterliy.hunternews.activity.HunterNewsApp;;import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileUtils {
@@ -34,7 +36,23 @@ public class FileUtils {
     }
 
 
-    public static boolean saveText2SDcard(String fileName,String key){
-        return false;
+    public static boolean saveText2SDcard(String fileName,String text){
+        File file = new File(fileName);
+        File parentFile = file.getParentFile();
+        if (!parentFile.exists()){
+            parentFile.mkdirs();
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(text);
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            file.delete();
+            return false;
+        }
+
+        return true;
     }
 }
