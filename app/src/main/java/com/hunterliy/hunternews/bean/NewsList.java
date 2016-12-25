@@ -2,7 +2,7 @@ package com.hunterliy.hunternews.bean;
 
 import java.util.List;
 
-public class NewsList {
+public class NewsList extends JsonBean{
 
     private String msg;
     private int code;
@@ -35,6 +35,8 @@ public class NewsList {
     public static NewsList objectFromData(String s){
         return new com.google.gson.Gson().fromJson(s,NewsList.class);
     }
+
+
 
 
     public static class NewsListBean {

@@ -17,5 +17,6 @@ public class NewsListModel {
     public void getNewsData(OnNewsListener newsListener){
         this.newsListener = newsListener;
         final List<NewsListEntity> news_list = HttpUtils.getNewsData();
+        newsListener.onSuccess(news_list);
     }
 }

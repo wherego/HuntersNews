@@ -10,7 +10,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.hunterliy.hunternews.R;
-import com.hunterliy.hunternews.model.NewsDetilsModel;
 
 import java.util.ArrayList;
 
@@ -37,9 +36,9 @@ public class NewsDetilsActivity extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_news_detils);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initData() {
@@ -50,23 +49,13 @@ public class NewsDetilsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        NewsDetilsModel newsDetilsModel = new NewsDetilsModel();
-        newsDetilsModel.getNewsData(new NewsDetilsModel.OnNewsDetilsListener() {
-            @Override
-            public void onSuccess(ArrayList<String> data) {
-                webView.setWebViewClient(new WebViewClient());
-                webView.loadUrl(data.get(1));
-                Glide.with(getApplicationContext())
-                        .load(data.get(0)).error(R.mipmap.ic_launcher)
-                        .fitCenter().into(ivImage);
-            }
-
-            @Override
-            public void onFailture() {
-
-            }
-        });
+        Bundle bundle = getIntent().getExtras();
+        ArrayList<String> data = bundle.getStringArrayList("data");
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(data.get(1));
+        Glide.with(getApplicationContext())
+                .load(data.get(0)).error(R.mipmap.ic_launcher)
+                .fitCenter().into(ivImage);
 
     }
 }
