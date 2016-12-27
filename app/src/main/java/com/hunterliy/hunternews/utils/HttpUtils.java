@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 
 public class HttpUtils {
 
-    public static List<NewsListEntity> showList = new ArrayList<NewsListEntity>();
+    public static List showList = new ArrayList<>();
 
     public static List<NewsListEntity> getNewsData(){
          Retrofit retrofit = new Retrofit.Builder()
