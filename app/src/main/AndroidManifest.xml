@@ -10,13 +10,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
-        <activity android:name=".activity.MainActivity" >
+        <activity android:name=".activity.StoryListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:scheme="mzhihu" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewsDetilsActivity"
+        <activity android:name=".activity.StoryDetilsActivity"
                     android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>

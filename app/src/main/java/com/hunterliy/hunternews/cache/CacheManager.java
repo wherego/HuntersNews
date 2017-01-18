@@ -31,21 +31,17 @@ public class CacheManager {
                 .first(new Func1<T, Boolean>() {
                     @Override
                     public Boolean call(T t) {
-
                         return t!=null&&!t.isExpire();
-
                     }
                 });
         return observable;
     }
 
     public <T extends JsonBean> Observable<T> loadFromMemory(String key,Class<T> clz){
-
         return memoryCache.get(key,clz);
     }
 
     public <T extends JsonBean> Observable<T> loadFromDisk(final String key,Class<T> clz){
-
         return diskCache.get(key,clz)
                 .doOnNext(new Action1<T>(){
 

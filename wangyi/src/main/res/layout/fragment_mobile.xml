@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0E0E0"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.hunterliy.wangyi.Fragment_nba">
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/refresh_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tr_wave_height="180dp"
+            app:tr_head_height="100dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+</FrameLayout>

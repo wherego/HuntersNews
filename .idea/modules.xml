@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HunterNews.iml" filepath="$PROJECT_DIR$/HunterNews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Library/Library.iml" filepath="$PROJECT_DIR$/Library/Library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douban/douban.iml" filepath="$PROJECT_DIR$/douban/douban.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wangyi/wangyi.iml" filepath="$PROJECT_DIR$/wangyi/wangyi.iml" />
     </modules>
   </component>
 </project>
