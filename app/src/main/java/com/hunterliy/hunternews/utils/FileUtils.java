@@ -1,7 +1,5 @@
 package com.hunterliy.hunternews.utils;
 
-import com.hunterliy.hunternews.activity.HunterNewsApp;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +10,9 @@ import java.io.IOException;
 public class FileUtils {
 
     public static String getCacheDir(){
-        return String.valueOf(HunterNewsApp.getInstance().getCacheDir());
+//        HunterNewsApp app = new HunterNewsApp();
+//        return String.valueOf(app.getInstance().getCacheDir());
+        return "/data/data/com.hunterliy.hunternews/cache";
     }
 
     public static String readTextFromFile(String fileName){

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.hunterliy.library.utils.AppObservable;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -41,8 +42,13 @@ public class Fragment_mobile extends SampleFragment {
         mAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view,int position) {
+                ArrayList<String> data = new ArrayList<String>();
+                data.add(mlist.get(position).getPicUrl());
+                data.add(mlist.get(position).getUrl());
                 Intent intent = new Intent(getActivity(),NewsDetilsActivity.class);
-                intent.putExtra("data",mlist.get(position).getUrl());
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("data",data);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

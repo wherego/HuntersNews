@@ -5,6 +5,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.mzule.activityrouter.annotation.Router;
+
+@Router("news_list")
 public class NewsListActivity extends AppCompatActivity {
 
     TabLayout tabLayout;

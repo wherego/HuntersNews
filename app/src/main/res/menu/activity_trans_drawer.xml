@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/story" android:icon="@android:drawable/ic_menu_camera"
+            android:title="知乎日报" />
+        <item android:id="@+id/news" android:icon="@android:drawable/ic_menu_gallery"
+            android:title="网易新闻" />
+        <item android:id="@+id/book" android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="豆瓣图书" />
+    </group>
+
+</menu>

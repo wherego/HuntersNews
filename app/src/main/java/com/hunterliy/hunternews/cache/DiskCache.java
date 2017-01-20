@@ -26,7 +26,7 @@ public class DiskCache implements ICache{
             @Override
             public void call(Subscriber<? super T> subscriber) {
 
-                Log.v("cache","load cache from"+key);
+                Log.e("cache","硬盘读取load cache from"+key);
                 String fileName = CACHE_PATH+key;
                 String result = FileUtils.readTextFromFile(fileName);
                 if (subscriber.isUnsubscribed()){
@@ -54,7 +54,7 @@ public class DiskCache implements ICache{
             @Override
             public void call(Subscriber<? super Object> subscriber) {
 
-                Log.v("cache","save to disk"+key);
+                Log.e("cache","硬盘存储save to disk"+key);
 
                 String fileName = CACHE_PATH + key;
                 String result = t.toString();

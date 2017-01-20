@@ -33,7 +33,7 @@ public class MemoryCache implements ICache {
        return Observable.create(new Observable.OnSubscribe<T>() {
            @Override
            public void call(Subscriber<? super T> subscriber) {
-               Log.v("cache", "load from memory" + key);
+               Log.e("cache", "记忆读取load from memory" + key);
                String result = mLruCache.get(key);
                if (subscriber.isUnsubscribed()){
                    return;
@@ -53,7 +53,7 @@ public class MemoryCache implements ICache {
     @Override
     public <T extends JsonBean> void put(String key, T t) {
         if (null!=t)
-            Log.v("cache", "save to memory: " + key);
+            Log.e("cache", "记忆存储save to memory: " + key);
         mLruCache.put(key,t.toString());
     }
 }

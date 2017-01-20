@@ -1,6 +1,7 @@
 package com.hunterliy.wangyi;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,7 +45,14 @@ public class Fragment_startup extends SampleFragment {
         mAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view,int position) {
-                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                ArrayList<String> data = new ArrayList<String>();
+                data.add(mlist.get(position).getPicUrl());
+                data.add(mlist.get(position).getUrl());
+                Intent intent = new Intent(getActivity(),NewsDetilsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("data",data);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         return v;

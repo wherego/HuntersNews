@@ -2,7 +2,7 @@ package com.hunterliy.hunternews.bean;
 
 import java.util.List;
 
-public class StoryResponse {
+public class StoryResponse extends JsonBean {
         private List<Story> stories;
         private String date;
 
