@@ -1,4 +1,4 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.hunterliy.wangyi.R;
 
 import java.util.ArrayList;
 

@@ -6,7 +6,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -40,7 +39,7 @@ public class StoryListActivity extends AppCompatActivity implements NavigationVi
     private List<Story> mlist = new ArrayList<>();
     private StoryAdapter mAdapter;
     private int page = 0;
-    private static final String API = "http://api.1-blog.com/biz/bizserver/xiaohua/list.do?page=%s";
+    private static final String API = "http://news-at.zhihu.com/api/4/?page=%s";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,14 +133,14 @@ public class StoryListActivity extends AppCompatActivity implements NavigationVi
             @Override
             public Observable<StoryResponse> get(String key, Class<StoryResponse> clz) {
                 Observable<StoryResponse> o = AppObservable.bindActivity(ZhihuApi.http.getLatestNews());
-                Log.e("cache", "网络读取load from newwork");
                 return o;
             }
         };
-        Observable<StoryResponse> ob = CacheManager.getInstance().load(API,StoryResponse.class,net);
+        Observable<StoryResponse> observable = CacheManager.getInstance().load(API,StoryResponse.class,net);
+
 
         if (newsKey.equals("")) {
-            ob.subscribe(new Action1<StoryResponse>() {
+            observable.subscribe(new Action1<StoryResponse>() {
                 @Override
                 public void call(StoryResponse storyResponse) {
                     mlist.clear();
@@ -154,23 +153,22 @@ public class StoryListActivity extends AppCompatActivity implements NavigationVi
                     Toast.makeText(StoryListActivity.this, "network error", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            AppObservable.bindActivity(ZhihuApi.http.getHistoryNews(newsKey)).subscribe(new Action1<StoryResponse>() {
+                @Override
+                public void call(StoryResponse storyResponse) {
+                    refreshWidget.setOverScrollRefreshShow(false);
+                    mlist.addAll(storyResponse.getStories());
+                    mAdapter.notifyDataSetChanged();
+                }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    Toast.makeText(StoryListActivity.this, "network error", Toast.LENGTH_SHORT).show();
+                    refreshWidget.setOverScrollRefreshShow(false);
+                }
+            });
         }
-//        else {
-//            AppObservable.bindActivity(this, ZhihuApi.http.getHistoryNews(newsKey)).subscribe(new Action1<StoryResponse>() {
-//                @Override
-//                public void call(StoryResponse storyResponse) {
-//                    refreshWidget.setOverScrollRefreshShow(false);
-//                    mlist.addAll(storyResponse.getStories());
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }, new Action1<Throwable>() {
-//                @Override
-//                public void call(Throwable throwable) {
-//                    Toast.makeText(StoryListActivity.this, "network error", Toast.LENGTH_SHORT).show();
-//                    refreshWidget.setOverScrollRefreshShow(false);
-//                }
-//            });
-//        }
     }
 
     public static String getDateString(Date date) {

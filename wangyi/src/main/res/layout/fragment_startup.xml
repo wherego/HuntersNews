@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#E0E0E0"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.hunterliy.wangyi.Fragment_nba">
+    tools:context="com.hunterliy.wangyi.ui.Fragment_nba">
 
     <RelativeLayout
         android:layout_width="match_parent"

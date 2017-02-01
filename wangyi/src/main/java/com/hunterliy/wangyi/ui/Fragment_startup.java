@@ -1,4 +1,4 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.ui;
 
 
 import android.content.Intent;
@@ -13,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hunterliy.library.utils.AppObservable;
+import com.hunterliy.wangyi.bean.News;
+import com.hunterliy.wangyi.adapter.NewsAdapter;
+import com.hunterliy.wangyi.activity.NewsDetilsActivity;
+import com.hunterliy.wangyi.bean.NewsResponse;
+import com.hunterliy.wangyi.R;
+import com.hunterliy.wangyi.api.StartupHttpApi;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -22,7 +28,7 @@ import java.util.List;
 import rx.functions.Action1;
 
 
-public class Fragment_mobile extends SampleFragment {
+public class Fragment_startup extends SampleFragment {
 
     RecyclerView recyclerView;
     TwinklingRefreshLayout refreshWidget;
@@ -30,9 +36,12 @@ public class Fragment_mobile extends SampleFragment {
     private NewsAdapter mAdapter;
     private int page = 0;
 
+    public Fragment_startup() {
+    }
+
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mobile,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_startup,container,false);
         refreshWidget = (TwinklingRefreshLayout)v.findViewById(R.id.refresh_widget);
         initRefresh();
         recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
@@ -64,7 +73,7 @@ public class Fragment_mobile extends SampleFragment {
                     @Override
                     public void run() {
                         getNewsList(page);
-                        page = page + 1;
+                        page=page+1;
                         refreshWidget.finishLoadmore();
                     }
                 }, 2000);
@@ -87,9 +96,9 @@ public class Fragment_mobile extends SampleFragment {
 
     @Override
     public void getNewsList(int page) {
-        Log.e("USING", "使用流量了");
+        Log.e("USING","使用流量了");
         if (page==0) {
-            AppObservable.bindActivity(getActivity(), MobileHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", 0)).subscribe(new Action1<NewsResponse>() {
+            AppObservable.bindActivity(StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", 0)).subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse newsResponse) {
                     mlist.clear();
@@ -103,7 +112,7 @@ public class Fragment_mobile extends SampleFragment {
                 }
             });
         } else {
-            AppObservable.bindActivity(getActivity(), MobileHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
+            AppObservable.bindActivity(StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse storyResponse) {
                     refreshWidget.setOverScrollRefreshShow(false);

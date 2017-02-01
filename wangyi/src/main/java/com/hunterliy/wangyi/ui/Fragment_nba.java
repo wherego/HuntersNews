@@ -1,4 +1,4 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.ui;
 
 
 import android.content.Intent;
@@ -13,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hunterliy.library.utils.AppObservable;
+import com.hunterliy.wangyi.api.NbaHttpApi;
+import com.hunterliy.wangyi.bean.News;
+import com.hunterliy.wangyi.adapter.NewsAdapter;
+import com.hunterliy.wangyi.activity.NewsDetilsActivity;
+import com.hunterliy.wangyi.bean.NewsResponse;
+import com.hunterliy.wangyi.R;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -21,8 +27,7 @@ import java.util.List;
 
 import rx.functions.Action1;
 
-
-public class Fragment_startup extends SampleFragment {
+public class Fragment_nba extends SampleFragment {
 
     RecyclerView recyclerView;
     TwinklingRefreshLayout refreshWidget;
@@ -30,12 +35,9 @@ public class Fragment_startup extends SampleFragment {
     private NewsAdapter mAdapter;
     private int page = 0;
 
-    public Fragment_startup() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_startup,container,false);
+        View v = inflater.inflate(R.layout.fragment_nba,container,false);
         refreshWidget = (TwinklingRefreshLayout)v.findViewById(R.id.refresh_widget);
         initRefresh();
         recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
@@ -90,9 +92,9 @@ public class Fragment_startup extends SampleFragment {
 
     @Override
     public void getNewsList(int page) {
-        Log.e("USING","使用流量了");
+        Log.e("USING", "使用流量了");
         if (page==0) {
-            AppObservable.bindActivity(getActivity(), StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", 0)).subscribe(new Action1<NewsResponse>() {
+            AppObservable.bindActivity(NbaHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",0)).subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse newsResponse) {
                     mlist.clear();
@@ -106,7 +108,7 @@ public class Fragment_startup extends SampleFragment {
                 }
             });
         } else {
-            AppObservable.bindActivity(getActivity(), StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
+            AppObservable.bindActivity(NbaHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse storyResponse) {
                     refreshWidget.setOverScrollRefreshShow(false);
@@ -122,5 +124,7 @@ public class Fragment_startup extends SampleFragment {
             });
         }
     }
+
+
 
 }

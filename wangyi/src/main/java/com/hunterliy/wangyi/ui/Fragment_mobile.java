@@ -1,4 +1,4 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.ui;
 
 
 import android.content.Intent;
@@ -12,26 +12,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.hunterliy.library.cache.CacheManager;
+import com.hunterliy.library.cache.NetWorkCache;
 import com.hunterliy.library.utils.AppObservable;
+import com.hunterliy.wangyi.api.MobileHttpApi;
+import com.hunterliy.wangyi.bean.News;
+import com.hunterliy.wangyi.adapter.NewsAdapter;
+import com.hunterliy.wangyi.activity.NewsDetilsActivity;
+import com.hunterliy.wangyi.bean.NewsResponse;
+import com.hunterliy.wangyi.R;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.functions.Action1;
 
-public class Fragment_nba extends SampleFragment {
+
+public class Fragment_mobile extends SampleFragment {
 
     RecyclerView recyclerView;
     TwinklingRefreshLayout refreshWidget;
     private List<News> mlist = new ArrayList<>();
     private NewsAdapter mAdapter;
     private int page = 0;
+    private static final String API = "http://news-at.zhihu.com/api/4/?page=%s";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_nba,container,false);
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_mobile,container,false);
         refreshWidget = (TwinklingRefreshLayout)v.findViewById(R.id.refresh_widget);
         initRefresh();
         recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
@@ -63,7 +74,7 @@ public class Fragment_nba extends SampleFragment {
                     @Override
                     public void run() {
                         getNewsList(page);
-                        page=page+1;
+                        page++;
                         refreshWidget.finishLoadmore();
                     }
                 }, 2000);
@@ -85,10 +96,19 @@ public class Fragment_nba extends SampleFragment {
     }
 
     @Override
-    public void getNewsList(int page) {
+    public void getNewsList(final int page) {
         Log.e("USING", "使用流量了");
+        NetWorkCache<NewsResponse> latest_net = new NetWorkCache<NewsResponse>() {
+            @Override
+            public Observable<NewsResponse> get(String key, Class<NewsResponse> clz) {
+                Observable<NewsResponse> o = AppObservable.bindActivity(MobileHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", page));
+                Log.e("cache", "网络读取load from newwork");
+                return o;
+            }
+        };
+        Observable<NewsResponse> observable = CacheManager.getInstance().load(API,NewsResponse.class,latest_net);
         if (page==0) {
-            AppObservable.bindActivity(getActivity(), NbaHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",0)).subscribe(new Action1<NewsResponse>() {
+            observable.subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse newsResponse) {
                     mlist.clear();
@@ -101,8 +121,8 @@ public class Fragment_nba extends SampleFragment {
                     Toast.makeText(getContext(), "network error", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            AppObservable.bindActivity(getActivity(), NbaHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
+        }else {
+            observable.subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse storyResponse) {
                     refreshWidget.setOverScrollRefreshShow(false);
@@ -113,12 +133,9 @@ public class Fragment_nba extends SampleFragment {
                 @Override
                 public void call(Throwable throwable) {
                     Toast.makeText(getContext(), "network error", Toast.LENGTH_SHORT).show();
-                    refreshWidget.setOverScrollRefreshShow(false);
                 }
             });
         }
     }
-
-
 
 }

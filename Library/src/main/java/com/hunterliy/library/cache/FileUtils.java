@@ -1,4 +1,4 @@
-package com.hunterliy.hunternews.utils;
+package com.hunterliy.library.cache;
 
 import java.io.BufferedWriter;
 import java.io.File;
