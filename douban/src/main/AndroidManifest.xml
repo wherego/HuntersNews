@@ -8,14 +8,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" >
-        <activity android:name=".BookListActiviy" >
+        <activity android:name=".activity.BookListActiviy" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BookDetilsActivity"
+        <activity android:name=".activity.BookDetilsActivity"
                     android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>

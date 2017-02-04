@@ -1,6 +1,7 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.api;
 
 import com.hunterliy.library.utils.AppClient;
+import com.hunterliy.wangyi.bean.NewsResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

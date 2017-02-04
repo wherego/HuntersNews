@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.LruCache;
 
 import com.google.gson.Gson;
+import com.hunterliy.library.bean.JsonBean;
 
 import java.io.UnsupportedEncodingException;
 

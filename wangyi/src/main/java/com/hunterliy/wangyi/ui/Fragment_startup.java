@@ -6,25 +6,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.hunterliy.library.cache.CacheManager;
+import com.hunterliy.library.cache.NetWorkCache;
 import com.hunterliy.library.utils.AppObservable;
-import com.hunterliy.wangyi.bean.News;
-import com.hunterliy.wangyi.adapter.NewsAdapter;
-import com.hunterliy.wangyi.activity.NewsDetilsActivity;
-import com.hunterliy.wangyi.bean.NewsResponse;
 import com.hunterliy.wangyi.R;
+import com.hunterliy.wangyi.activity.NewsDetilsActivity;
+import com.hunterliy.wangyi.adapter.NewsAdapter;
 import com.hunterliy.wangyi.api.StartupHttpApi;
+import com.hunterliy.wangyi.bean.News;
+import com.hunterliy.wangyi.bean.NewsResponse;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.functions.Action1;
 
 
@@ -35,9 +37,7 @@ public class Fragment_startup extends SampleFragment {
     private List<News> mlist = new ArrayList<>();
     private NewsAdapter mAdapter;
     private int page = 0;
-
-    public Fragment_startup() {
-    }
+    private static final String API = "http://news-at.zhihu.com/api/4/?page=%s";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,10 +95,17 @@ public class Fragment_startup extends SampleFragment {
     }
 
     @Override
-    public void getNewsList(int page) {
-        Log.e("USING","使用流量了");
+    public void getNewsList(final int page) {
+        NetWorkCache<NewsResponse> latest_net = new NetWorkCache<NewsResponse>() {
+            @Override
+            public Observable<NewsResponse> get(String key, Class<NewsResponse> clz) {
+                Observable<NewsResponse> newsResponse = AppObservable.bindActivity(StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", page));
+                return newsResponse;
+            }
+        };
+        Observable<NewsResponse> observable = CacheManager.getInstance().load(API,NewsResponse.class,latest_net);
         if (page==0) {
-            AppObservable.bindActivity(StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", 0)).subscribe(new Action1<NewsResponse>() {
+            observable.subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse newsResponse) {
                     mlist.clear();
@@ -111,8 +118,8 @@ public class Fragment_startup extends SampleFragment {
                     Toast.makeText(getContext(), "network error", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            AppObservable.bindActivity(StartupHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef","10",page++)).subscribe(new Action1<NewsResponse>() {
+        }else {
+            observable.subscribe(new Action1<NewsResponse>() {
                 @Override
                 public void call(NewsResponse storyResponse) {
                     refreshWidget.setOverScrollRefreshShow(false);
@@ -123,7 +130,6 @@ public class Fragment_startup extends SampleFragment {
                 @Override
                 public void call(Throwable throwable) {
                     Toast.makeText(getContext(), "network error", Toast.LENGTH_SHORT).show();
-                    refreshWidget.setOverScrollRefreshShow(false);
                 }
             });
         }

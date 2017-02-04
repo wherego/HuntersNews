@@ -1,5 +1,6 @@
 package com.hunterliy.hunternews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -16,8 +17,8 @@ import com.hunterliy.hunternews.adapter.StoryAdapter;
 import com.hunterliy.hunternews.api.ZhihuApi;
 import com.hunterliy.hunternews.bean.Story;
 import com.hunterliy.hunternews.bean.StoryResponse;
-import com.hunterliy.hunternews.cache.CacheManager;
-import com.hunterliy.hunternews.cache.NetWorkCache;
+import com.hunterliy.library.cache.CacheManager;
+import com.hunterliy.library.cache.NetWorkCache;
 import com.hunterliy.library.utils.AppObservable;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -57,14 +58,14 @@ public class StoryListActivity extends AppCompatActivity implements NavigationVi
         mAdapter.setOnItemClickListener(new StoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                ArrayList<String> data = new ArrayList<String>();
-//                data.add(String.valueOf(mlist.get(position).getId()));
-//                data.add(mlist.get(position).getTitle());
-//                Intent intent = new Intent(StoryListActivity.this, StoryDetilsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putStringArrayList("data",data);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                ArrayList<String> data = new ArrayList<String>();
+                data.add(String.valueOf(mlist.get(position).getId()));
+                data.add(mlist.get(position).getTitle());
+                Intent intent = new Intent(StoryListActivity.this, StoryDetilsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("data",data);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -132,12 +133,11 @@ public class StoryListActivity extends AppCompatActivity implements NavigationVi
         NetWorkCache<StoryResponse> net = new NetWorkCache<StoryResponse>() {
             @Override
             public Observable<StoryResponse> get(String key, Class<StoryResponse> clz) {
-                Observable<StoryResponse> o = AppObservable.bindActivity(ZhihuApi.http.getLatestNews());
-                return o;
+                Observable<StoryResponse> storyResponse = AppObservable.bindActivity(ZhihuApi.http.getLatestNews());
+                return storyResponse;
             }
         };
         Observable<StoryResponse> observable = CacheManager.getInstance().load(API,StoryResponse.class,net);
-
 
         if (newsKey.equals("")) {
             observable.subscribe(new Action1<StoryResponse>() {

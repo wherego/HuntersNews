@@ -3,6 +3,8 @@ package com.hunterliy.library.cache;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.hunterliy.library.bean.JsonBean;
+import com.hunterliy.library.utils.FileUtils;
 
 import rx.Observable;
 import rx.Subscriber;

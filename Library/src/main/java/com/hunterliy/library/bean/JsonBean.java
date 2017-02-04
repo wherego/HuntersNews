@@ -1,4 +1,4 @@
-package com.hunterliy.hunternews.bean;
+package com.hunterliy.library.bean;
 
 import com.google.gson.Gson;
 

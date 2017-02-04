@@ -1,5 +1,6 @@
 package com.hunterliy.hunternews.bean;
 
+import com.hunterliy.library.bean.JsonBean;
 import java.util.List;
 
 public class StoryResponse extends JsonBean {

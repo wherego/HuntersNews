@@ -1,5 +1,6 @@
-package com.hunterliy.douban;
+package com.hunterliy.douban.api;
 
+import com.hunterliy.douban.bean.BookResponse;
 import com.hunterliy.library.utils.AppClient;
 
 import java.util.Map;

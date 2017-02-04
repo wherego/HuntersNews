@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,12 @@ import android.widget.Toast;
 import com.hunterliy.library.cache.CacheManager;
 import com.hunterliy.library.cache.NetWorkCache;
 import com.hunterliy.library.utils.AppObservable;
+import com.hunterliy.wangyi.R;
+import com.hunterliy.wangyi.activity.NewsDetilsActivity;
+import com.hunterliy.wangyi.adapter.NewsAdapter;
 import com.hunterliy.wangyi.api.MobileHttpApi;
 import com.hunterliy.wangyi.bean.News;
-import com.hunterliy.wangyi.adapter.NewsAdapter;
-import com.hunterliy.wangyi.activity.NewsDetilsActivity;
 import com.hunterliy.wangyi.bean.NewsResponse;
-import com.hunterliy.wangyi.R;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -97,13 +96,11 @@ public class Fragment_mobile extends SampleFragment {
 
     @Override
     public void getNewsList(final int page) {
-        Log.e("USING", "使用流量了");
         NetWorkCache<NewsResponse> latest_net = new NetWorkCache<NewsResponse>() {
             @Override
             public Observable<NewsResponse> get(String key, Class<NewsResponse> clz) {
-                Observable<NewsResponse> o = AppObservable.bindActivity(MobileHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", page));
-                Log.e("cache", "网络读取load from newwork");
-                return o;
+                Observable<NewsResponse> newsResponse = AppObservable.bindActivity(MobileHttpApi.http.getNewsData("be7d7c5a9db7e299d8e537e058ea7cef", "10", page));
+                return newsResponse;
             }
         };
         Observable<NewsResponse> observable = CacheManager.getInstance().load(API,NewsResponse.class,latest_net);

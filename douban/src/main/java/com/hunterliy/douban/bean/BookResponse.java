@@ -1,8 +1,9 @@
-package com.hunterliy.douban;
+package com.hunterliy.douban.bean;
 
 import java.util.List;
 
 public class BookResponse {
+
     public int count;
     public int start;
     public int total;

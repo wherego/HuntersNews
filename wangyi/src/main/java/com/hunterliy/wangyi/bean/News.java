@@ -1,4 +1,4 @@
-package com.hunterliy.wangyi;
+package com.hunterliy.wangyi.bean;
 
 public class News {
 
