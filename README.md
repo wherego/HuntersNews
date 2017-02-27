@@ -1,5 +1,5 @@
 # HuntersNews
-##基于Rxjava+Retrofit开发的新闻客户端（知乎日报+网易新闻+豆瓣图书）
+##一款基于Retrofit + RxJava + MVC架构开发的符合Google Material Desgin的新闻客户端（知乎日报+网易新闻+豆瓣图书）
 
 ![image](https://raw.githubusercontent.com/hunterliy10/HuntersNews/master/Library/src/main/res/drawable/screen1.jpg)
 ![image](https://raw.githubusercontent.com/hunterliy10/HuntersNews/master/Library/src/main/res/drawable/screen2.jpg)
